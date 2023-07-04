@@ -20,7 +20,6 @@ model User {
 
 model Post {
   id          Int @id @default(autoincrement())
-  slug        String @unique
   file        String? @unique
   description String?
   created_at  DateTime? 
@@ -30,5 +29,5 @@ model Post {
   directions  String?
   coordinates String?
   country     String?
-  tags        String? 
+  tags        String[] 
 }

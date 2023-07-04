@@ -28,7 +28,7 @@ router.post('/', auth, async (req, res) => {
   const postData = {
     file: data.file,
     description: data.description,
-    created_at: Date.now(),
+    created_at: new Date(),
     userId: req.user.payload.id,
     title: data.title,
     directions: data.directions,
@@ -40,12 +40,10 @@ router.post('/', auth, async (req, res) => {
   try {
     const post = await prisma.post.create({
       data: postData,
-      include: {
-        tags: true,
-      },
     });
     return res.json(post);
   } catch (error) {
+    console.log(error)
     return res.status(500).json({ error: 'Failed to create post' });
   }
 });
@@ -79,25 +77,40 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 router.get('/search', async (req, res) => {
-  const { selectedTags } = req.body.tags;
+  const [ selectedTags ] = req.body.tags;
 
   try {
     const posts = await prisma.post.findMany({
-      where: {
-        tags: {
-          some: {
-            slug: {
-              in: selectedTags,
+        where: {
+            tags: {
+              hasEvery: selectedTags,
             },
           },
-        },
-      },
-    });
+      })
 
     res.json(posts);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
 });
 
+router.get("/:id", async (req, res) => {
+    try {
+        const post = await prisma.post.findUnique({
+            where: {
+              id: parseInt(req.params.id),
+            },
+          });
+    
+        res.json(post);
+      } catch (error) {
+        
+        console.log(error)
+        res.status(500).json({ error: 'Failed to fetch posts' });
+      }
+})
 export default router;
+
+
+//router.get(':id' )
