@@ -76,7 +76,7 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-router.get(`/country/tags`, async (req, res) => {
+router.get(`/:country/:tags`, async (req, res) => {
   const [ selectedTags ] = req.body.tags;
 
   try {
