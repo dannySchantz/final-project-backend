@@ -96,15 +96,17 @@ router.get(`/country/tags`, async (req, res) => {
   }
 });
 
-router.get(`/country`, async (req, res) => {
-  
+router.get('/:country', async (req, res) => {
+
+    let countryName = req.params.country
+    let country = countryName.charAt(0).toUpperCase() + countryName.slice(1);
+
     try {
       const posts = await prisma.post.findMany({
           where: {
-              country: req.body.country,
+              country: country
             },
         })
-  
       res.json(posts);
     } catch (error) {
       console.log(error)
