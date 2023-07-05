@@ -77,7 +77,7 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 router.get(`/:country/:tags`, async (req, res) => {
-  const [ selectedTags ] = req.body.tags;
+  const [selectedTags] = req.params.tags.split('-');
 
   try {
     const posts = await prisma.post.findMany({
@@ -88,7 +88,6 @@ router.get(`/:country/:tags`, async (req, res) => {
             },
           },
       })
-
     res.json(posts);
   } catch (error) {
     console.log(error)
@@ -114,14 +113,14 @@ router.get('/:country', async (req, res) => {
     }
 });
 
-router.get(`/tags`, async (req, res) => {
-    const [ selectedTags ] = req.body.tags;
+router.get(`/tags/:tag`, async (req, res) => {
+    const selectedTag = req.params.tag;
   
     try {
       const posts = await prisma.post.findMany({
           where: {
               tags: {
-                hasEvery: selectedTags,
+                has: selectedTag
               },
             },
         })
@@ -133,21 +132,21 @@ router.get(`/tags`, async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
-    try {
-        const post = await prisma.post.findUnique({
-            where: {
-              id: parseInt(req.params.id),
-            },
-          });
+// router.get("/:id", async (req, res) => {
+//     try {
+//         const post = await prisma.post.findUnique({
+//             where: {
+//               id: parseInt(req.params.id),
+//             },
+//           });
     
-        res.json(post);
-      } catch (error) {
+//         res.json(post);
+//       } catch (error) {
         
-        console.log(error)
-        res.status(500).json({ error: 'Failed to fetch posts' });
-      }
-})
+//         console.log(error)
+//         res.status(500).json({ error: 'Failed to fetch posts' });
+//       }
+// })
 
 
 export default router;
