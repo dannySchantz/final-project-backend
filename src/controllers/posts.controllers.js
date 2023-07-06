@@ -48,7 +48,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/id/:id', auth, async (req, res) => {
   try {
     const post = await prisma.post.findUnique({
       where: {
@@ -76,7 +76,7 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-router.get(`/:country/:tags`, async (req, res) => {
+router.get(`/country/:country/tags/:tags`, async (req, res) => {
   const [selectedTags] = req.params.tags.split('-');
 
   try {
@@ -95,7 +95,7 @@ router.get(`/:country/:tags`, async (req, res) => {
   }
 });
 
-router.get('/:country', async (req, res) => {
+router.get('/country/:country', async (req, res) => {
 
     let countryName = req.params.country
     let country = countryName.charAt(0).toUpperCase() + countryName.slice(1);
@@ -132,25 +132,24 @@ router.get(`/tags/:tag`, async (req, res) => {
     }
 });
 
-// router.get("/:id", async (req, res) => {
-//     try {
-//         const post = await prisma.post.findUnique({
-//             where: {
-//               id: parseInt(req.params.id),
-//             },
-//           });
+router.get("/id/:id", async (req, res) => {
+    try {
+        const post = await prisma.post.findUnique({
+            where: {
+              id: parseInt(req.params.id),
+            },
+          });
     
-//         res.json(post);
-//       } catch (error) {
+        res.json(post);
+      } catch (error) {
         
-//         console.log(error)
-//         res.status(500).json({ error: 'Failed to fetch posts' });
-//       }
-// })
+        console.log(error)
+        res.status(500).json({ error: 'Failed to fetch posts' });
+      }
+})
 
 
 export default router;
 
 
-//router.get('/:id')
 
