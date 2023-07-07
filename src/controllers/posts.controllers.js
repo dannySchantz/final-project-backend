@@ -76,15 +76,16 @@ router.delete('/id/:id', auth, async (req, res) => {
   }
 });
 
-router.get(`/country/:country/tags/:tags`, async (req, res) => {
-  const [selectedTags] = req.params.tags.split('-');
-
+router.get(`/countryTag/:country_tag`, async (req, res) => {
+  const countryTag = req.params.country_tag
+  let [selectedCountry, selectedTag] = countryTag.split('_')
+  let lowerCaseTag = selectedTag.toLowerCase()
   try {
     const posts = await prisma.post.findMany({
         where: {
-            country: req.body.country,
+            country: selectedCountry,
             tags: {
-              hasEvery: selectedTags,
+              has: lowerCaseTag,
             },
           },
       })
@@ -95,7 +96,7 @@ router.get(`/country/:country/tags/:tags`, async (req, res) => {
   }
 });
 
-router.get('/country/:country', async (req, res) => {
+router.get(`/country/:country`, async (req, res) => {
 
     let countryName = req.params.country
     let country = countryName.charAt(0).toUpperCase() + countryName.slice(1);
@@ -114,8 +115,8 @@ router.get('/country/:country', async (req, res) => {
 });
 
 router.get(`/tags/:tag`, async (req, res) => {
-    const selectedTag = req.params.tag;
-  
+    const selectedTag = req.params.tag.toLowerCase();
+
     try {
       const posts = await prisma.post.findMany({
           where: {
