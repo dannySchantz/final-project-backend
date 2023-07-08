@@ -79,11 +79,12 @@ router.delete('/id/:id', auth, async (req, res) => {
 router.get(`/countryTag/:country_tag`, async (req, res) => {
   const countryTag = req.params.country_tag
   let [selectedCountry, selectedTag] = countryTag.split('_')
+  let country = selectedCountry.charAt(0).toUpperCase() + selectedCountry.slice(1);
   let lowerCaseTag = selectedTag.toLowerCase()
   try {
     const posts = await prisma.post.findMany({
         where: {
-            country: selectedCountry,
+            country: country,
             tags: {
               has: lowerCaseTag,
             },
