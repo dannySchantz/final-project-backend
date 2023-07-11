@@ -28,8 +28,7 @@ router.post('/', async (req, res) => {
       const user = await prisma.user.create({
         data,
       });
-  
-      return res.json(filter(user, 'id', 'name', 'email'));
+      return res.json(filter(user, 'id', 'name', 'email'),);
     } catch (err) {
       if (
         err instanceof Prisma.PrismaClientKnownRequestError &&
