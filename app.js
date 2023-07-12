@@ -4,7 +4,7 @@ import authRouter from "./src/controllers/auth.controllers.js"
 import postsRouter from "./src/controllers/posts.controllers.js"
 import authrefreshRotuer from "./src/controllers/auth-refresh.controller.js"
 import featuredPostsRouter from "./src/controllers/featuredPosts.controllers.js"
- 
+import webHookRouter from "./src/controllers/webhook.controllers.js"
 import auth from "./src/middlewares/auth.js"
 import cors from 'cors'
 import morgan from "morgan"
@@ -19,5 +19,6 @@ app.use('/auth', authRouter)
 app.use('/posts', postsRouter)
 app.use('/auth-refresh', authrefreshRotuer)
 app.use('/create-checkout-session', featuredPostsRouter)
+app.use('/webhook', webHookRouter)
 
 export default app

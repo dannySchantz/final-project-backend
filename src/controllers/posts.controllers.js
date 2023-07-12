@@ -40,6 +40,7 @@ router.post('/', auth, async (req, res) => {
 
   const postData = {
     file: data.file,
+    name: data.name,
     description: data.description,
     created_at: new Date(),
     userId: req.user.payload.id,

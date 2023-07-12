@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
       success_url: 'http://localhost:5173/featured/success',   
       cancel_url: 'http://localhost:5173/featured/cancel',
     });
-  
+    console.log(session)
     // res.redirect(303, session.url);
     return res.json(session.url)
   });
