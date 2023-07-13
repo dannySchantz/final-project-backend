@@ -69,9 +69,6 @@ router.post('/', auth, async (req, res) => {
 router.delete('/id/:id', auth, async (req, res) => {
   try {
     const post = await prisma.post.findUnique({
-      orderBy: {
-        created_at: 'desc',
-      },
       where: {
         id: parseInt(req.params.id),
       },
