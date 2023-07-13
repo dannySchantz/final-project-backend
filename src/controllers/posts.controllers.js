@@ -17,6 +17,9 @@ router.get('/', async (req, res) => {
 router.get('/userId/:userId', async (req,res) => {
   try {
     const posts = await prisma.post.findMany({
+      orderBy: {
+        created_at: 'desc',
+      },
       where: {
         userId: req.params.slug,
       },
@@ -66,6 +69,9 @@ router.post('/', auth, async (req, res) => {
 router.delete('/id/:id', auth, async (req, res) => {
   try {
     const post = await prisma.post.findUnique({
+      orderBy: {
+        created_at: 'desc',
+      },
       where: {
         id: parseInt(req.params.id),
       },
@@ -98,6 +104,9 @@ router.get(`/countryTag/:country_tag`, async (req, res) => {
   let lowerCaseTag = selectedTag.toLowerCase()
   try {
     const posts = await prisma.post.findMany({
+      orderBy: {
+        created_at: 'desc',
+      },
         where: {
             country: country,
             tags: {
@@ -119,9 +128,12 @@ router.get(`/country/:country`, async (req, res) => {
 
     try {
       const posts = await prisma.post.findMany({
-          where: {
-              country: country
-            },
+        orderBy: {
+          created_at: 'desc',
+        },
+        where: {
+            country: country
+          },
         })
       res.json(posts);
     } catch (error) {
@@ -135,6 +147,9 @@ router.get(`/tags/:tag`, async (req, res) => {
 
     try {
       const posts = await prisma.post.findMany({
+        orderBy: {
+          created_at: 'desc',
+        },
           where: {
               tags: {
                 has: selectedTag
@@ -152,6 +167,7 @@ router.get(`/tags/:tag`, async (req, res) => {
 router.get("/id/:id", async (req, res) => {
     try {
         const post = await prisma.post.findUnique({
+
             where: {
               id: parseInt(req.params.id),
             },
@@ -167,6 +183,9 @@ router.get("/id/:id", async (req, res) => {
 router.get('/featured', async (req, res) => {
   try {
     const post = await prisma.post.findMany({
+      orderBy: {
+        created_at: 'desc',
+      },
         where: {
           featured: true
         },
